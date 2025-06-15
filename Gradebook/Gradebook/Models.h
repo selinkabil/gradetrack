@@ -41,3 +41,23 @@ struct Grade {
     CString gradeDate;
     double gradeValue;
 };
+struct SubjectStats
+{
+    double minGrade;
+    double maxGrade;
+    double avgGrade;
+    int totalGrades;
+};
+
+struct StudentGradeInfo
+{
+    int studentID;
+    int numberInClass;
+    CString fullName;
+    CString dateOfBirth;
+    int classID;           
+    CString classNumber;   
+    int subjectID;
+    CString subjectName;
+    double gradeValue;
+};

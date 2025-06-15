@@ -183,6 +183,12 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CManageClassesDlg.h" />
+    <ClInclude Include="CManageCurriculumDlg.h" />
+    <ClInclude Include="CManageGradesDlg.h" />
+    <ClInclude Include="CManageStudentsDlg.h" />
+    <ClInclude Include="CManageSubjectsDlg.h" />
+    <ClInclude Include="CManageTeachersDlg.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Gradebook.h" />
     <ClInclude Include="GradebookDatabase.h" />
@@ -193,6 +199,12 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CManageClassesDlg.cpp" />
+    <ClCompile Include="CManageCurriculumDlg.cpp" />
+    <ClCompile Include="CManageGradesDlg.cpp" />
+    <ClCompile Include="CManageStudentsDlg.cpp" />
+    <ClCompile Include="CManageSubjectsDlg.cpp" />
+    <ClCompile Include="CManageTeachersDlg.cpp" />
     <ClCompile Include="Gradebook.cpp" />
     <ClCompile Include="GradebookDatabase.cpp" />
     <ClCompile Include="GradebookDlg.cpp" />
