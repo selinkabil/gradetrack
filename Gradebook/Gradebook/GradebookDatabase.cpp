@@ -243,9 +243,8 @@ bool GradebookDatabase::AddStudent(int numberInClass, const CString& fullName,
     CString sql;
     CString dateStr = dateOfBirth.Format(_T("%Y-%m-%d"));
     CString safeFullName = fullName;
-    safeFullName.Replace(_T("'"), _T("''")); // Escape single quotes
+    safeFullName.Replace(_T("'"), _T("''")); 
 
-    // First, execute the INSERT statement
     sql.Format(_T("INSERT INTO Student (numberInClass, fullName, dateOfBirth, classID) VALUES (%d, '%s', '%s', %d)"),
         numberInClass, (LPCTSTR)safeFullName, (LPCTSTR)dateStr, classID);
 
@@ -254,7 +253,7 @@ bool GradebookDatabase::AddStudent(int numberInClass, const CString& fullName,
         return false;
     }
 
-    // Then, get the last inserted ID
+  
     CString idSql = _T("SELECT SCOPE_IDENTITY()");
     CRecordset* pRecordset = ExecuteQuery(idSql);
     if (pRecordset && !pRecordset->IsEOF())
