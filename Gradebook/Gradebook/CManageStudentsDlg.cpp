@@ -43,7 +43,7 @@ END_MESSAGE_MAP()
 BOOL CManageStudentsDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
-    if (!db.Connect(_T("DESKTOP-EEV7FL8"), _T("GradebookDB"), true)) 
+    if (!db.Connect(_T(""), _T(""), true)) 
     {
         CString error = db.GetLastError();
         CString msg;

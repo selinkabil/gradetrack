@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "GradebookDatabase.h"
+#include <windows.h> 
 using namespace std;
 
 GradebookDatabase::GradebookDatabase()
@@ -13,25 +14,25 @@ GradebookDatabase::~GradebookDatabase()
     Disconnect();
 }
 
-bool GradebookDatabase::Connect(const CString& serverName, const CString& databaseName,
-    bool useWindowsAuth, const CString& username, const CString& password)
+bool GradebookDatabase::Connect(const CString& /*serverName*/, const CString& /*databaseName*/,
+    bool /*useWindowsAuth*/, const CString& /*username*/, const CString& /*password*/)
 {
     try
     {
-        Disconnect(); 
+        Disconnect();
 
-        m_pDatabase =  make_unique<CDatabase>();
+        m_pDatabase = std::make_unique<CDatabase>();
 
-        if (useWindowsAuth)
+        // Read connection string from environment variable
+        TCHAR envConnStr[1024] = {0};
+        DWORD len = GetEnvironmentVariable(_T("GRADEBOOK_CONNECTION_STRING"), envConnStr, 1024);
+        if (len == 0)
         {
-            m_connectionString.Format(_T("DRIVER={ODBC Driver 17 for SQL Server};SERVER=%s;DATABASE=%s;Trusted_Connection=yes;"),
-                serverName, databaseName);
+            SetLastError(_T("Environment variable GRADEBOOK_CONNECTION_STRING is not set."));
+            m_isConnected = false;
+            return false;
         }
-        else
-        {
-            m_connectionString.Format(_T("DRIVER={ODBC Driver 17 for SQL Server};SERVER=%s;DATABASE=%s;UID=%s;PWD=%s;"),
-                serverName, databaseName, username, password);
-        }
+        m_connectionString = envConnStr;
 
         m_pDatabase->Open(NULL, FALSE, FALSE, m_connectionString);
         m_isConnected = true;

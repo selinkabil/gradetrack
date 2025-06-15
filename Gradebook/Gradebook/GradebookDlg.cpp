@@ -132,7 +132,7 @@ BOOL CGradebookDlg::OnInitDialog()
 	SetMainMenu(this->m_hWnd);
 
 	//connect to database
-	db.Connect(_T("DESKTOP-EEV7FL8"));
+	db.Connect(_T(""), _T(""), true);
 
 
 	//create font for static text
@@ -349,7 +349,7 @@ void CGradebookDlg::OnCbnSelchangeSubjectComboBox()
 		return;
 
 	if (!db.IsConnected()) {
-		db.Connect(_T("DESKTOP-EEV7FL8"));
+		db.Connect(_T(""), _T(""), true);
 	}
 
 	int selectedSubjectID = (int)m_SubjectComboBox.GetItemData(selIndex);
