@@ -424,4 +424,3 @@ void CGradebookDlg::OnFileExit()
 {
 	OnOK();  
 }
-s

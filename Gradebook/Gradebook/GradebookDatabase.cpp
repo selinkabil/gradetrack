@@ -242,25 +242,38 @@ bool GradebookDatabase::AddStudent(int numberInClass, const CString& fullName,
 {
     CString sql;
     CString dateStr = dateOfBirth.Format(_T("%Y-%m-%d"));
-    sql.Format(_T("INSERT INTO Student (numberInClass, fullName, dateOfBirth, classID) VALUES (%d, '%s', '%s', %d); SELECT SCOPE_IDENTITY();"),
-        numberInClass, fullName, dateStr, classID);
+    CString safeFullName = fullName;
+    safeFullName.Replace(_T("'"), _T("''")); // Escape single quotes
 
-    CRecordset* pRecordset = ExecuteQuery(sql);
-    if (pRecordset)
+    // First, execute the INSERT statement
+    sql.Format(_T("INSERT INTO Student (numberInClass, fullName, dateOfBirth, classID) VALUES (%d, '%s', '%s', %d)"),
+        numberInClass, (LPCTSTR)safeFullName, (LPCTSTR)dateStr, classID);
+
+    if (!ExecuteSQL(sql))
     {
-        if (!pRecordset->IsEOF())
-        {
-            CString value;
-            pRecordset->GetFieldValue((short)0, value);
-            newStudentID = _ttoi(value);
-        }
+        return false;
+    }
+
+    // Then, get the last inserted ID
+    CString idSql = _T("SELECT SCOPE_IDENTITY()");
+    CRecordset* pRecordset = ExecuteQuery(idSql);
+    if (pRecordset && !pRecordset->IsEOF())
+    {
+        CString value;
+        pRecordset->GetFieldValue((short)0, value);
+        newStudentID = _ttoi(value);
         pRecordset->Close();
         delete pRecordset;
         return true;
     }
+
+    if (pRecordset)
+    {
+        pRecordset->Close();
+        delete pRecordset;
+    }
     return false;
 }
-
 
 bool GradebookDatabase::UpdateStudent(int studentID, int numberInClass, const CString& fullName, const COleDateTime& dateOfBirth, int classID)
 {
