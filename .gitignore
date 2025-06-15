@@ -1,0 +1,5 @@
+config.ini
+.vs/
+*.user
+*.suo
+*.VC.db
